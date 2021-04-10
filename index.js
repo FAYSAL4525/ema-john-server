@@ -24,8 +24,10 @@ client.connect(err => {
         res.send(result.insertedCount)
       })
   })
- app.get('/products',(req,res)=>{
-   productsCollection.find({})
+	app.get('/products', (req, res) => {
+		const search = req.query.search;
+		// productsCollection.find({})
+		productsCollection.find({ name: { $regex: search} })
    .toArray((err,documents)=>{
      res.send(documents)
    })
@@ -54,8 +56,6 @@ app.post('/addOrder', (req, res) => {
     })
 })
 
-
-
   console.log('database connected');
   //   client.close();
 });
@@ -65,4 +65,4 @@ app.get('/', (req, res) => {
   res.send('Hello World!')
 })
 
-app.listen(process.env.PORT || port)
+app.listen(port)
